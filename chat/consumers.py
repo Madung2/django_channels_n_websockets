@@ -2,6 +2,8 @@ import json
 from channels.generic.websocket import WebsocketConsumer
 from asgiref.sync import async_to_sync
 
+from chat.models import ChatModel
+
 class ChatConsumer(WebsocketConsumer):
     def connect(self):
         self.room_group_name='test'
@@ -21,6 +23,9 @@ class ChatConsumer(WebsocketConsumer):
         text_data_json =json.loads(text_data)
         message = text_data_json['message'] ##메시지를 받고
         print('message:', message)
+
+        my_messages = ChatModel.objects.create(comment=message)
+        my_messages.save()
         
         ##다시 클라이언트에게 보내줌
         # self. send(text_data=json.dumps({
@@ -39,9 +44,14 @@ class ChatConsumer(WebsocketConsumer):
     def chat_message(self, event):
         message = event['message']
 
+        # my_messages = ChatModel.objects.create(comment=message)
+        # my_messages.save()
+
+
         self.send(text_data=json.dumps({
             'type':'chat',
             'message':message
         }))
+
 
 
