@@ -22,7 +22,9 @@ class ChatConsumer(WebsocketConsumer):
     def receive(self, text_data):
         text_data_json =json.loads(text_data)
         message = text_data_json['message'] ##메시지를 받고
-        print('message:', message)
+        # user = text_data_json['user']
+
+        print('message:', message, 'user:', "user1")
 
         my_messages = ChatModel.objects.create(comment=message)
         my_messages.save()
@@ -37,12 +39,14 @@ class ChatConsumer(WebsocketConsumer):
             self.room_group_name,
             {
                 'type':'chat_message',
+                'user': 'user1',
                 'message':message
             }
         )
     
     def chat_message(self, event):
         message = event['message']
+        user = "user1"
 
         # my_messages = ChatModel.objects.create(comment=message)
         # my_messages.save()
@@ -50,7 +54,8 @@ class ChatConsumer(WebsocketConsumer):
 
         self.send(text_data=json.dumps({
             'type':'chat',
-            'message':message
+            'message':message,
+            'user':user
         }))
 
 

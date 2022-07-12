@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'chat',
+    'user',
 ]
 
 ASGI_APPLICATION = 'mywebsite.asgi.application' #4분 21초까지

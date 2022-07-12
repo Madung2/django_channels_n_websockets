@@ -12,7 +12,12 @@
     <form id="form">
         <input type="text" name="message" />
     </form>
-    <div id='messages'></div>
+    <div style="display:flex">
+        <div id='username'> </div>
+        {% comment %} <div style="width:20px;height:10px"> {% endcomment %}
+        <div id='messages'></div>
+    </div>
+
 
     <script type="text/javascript">
         let url = `ws://${window.location.host}/ws/socket-server`
@@ -25,7 +30,10 @@
 
             if (data.type=== 'chat'){
                 let messages = document.getElementById('messages')
-                messages.insertAdjacentHTML('beforeend', `<div><p>${data.message}</p></div>`)
+                let username = document.getElementById('username')
+
+                messages.insertAdjacentHTML('beforeend', `<div></div>`)
+                username.insertAdjacentHTML('beforeend', `<div><p>${data.user}</p></div>`)
             }
         }
 
